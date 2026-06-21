@@ -1,0 +1,118 @@
+/* ============================================================
+   Nouvelle Vague — member profile pages
+   Monospace / terminal aesthetic, sitting over the shared wave
+   background (wave-bg.js installs the canvas + dark scrim).
+   One go-back button · smaller name · 3–4 content sections.
+   ============================================================ */
+:root{
+  --fg:#F2F2F0;
+  --dim:#9C9C98;
+  --faint:#6B6B67;
+  --line:rgba(255,255,255,.15);
+  --accent:#E0913F;            /* warm amber — brand tie over the cool wave */
+  --canvas:#050510;
+  --mono:"Share Tech Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --doto:"Doto","Share Tech Mono",monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;  /* company main body font */
+  --max:920px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--canvas)}   /* fallback if the WebGL wave fails */
+body{
+  background:transparent;                               /* let the fixed wave-bg canvas show through */
+  color:var(--fg);
+  font-family:var(--sans);font-size:15px;line-height:1.6;   /* company body font; Doto kept for name + section titles */
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  min-height:100vh;
+  padding:clamp(20px,4vw,52px);
+}
+.wrap{max-width:var(--max);margin:0 auto}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#0F0F0F}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ---------- go-back ---------- */
+.go-back{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+  border:1px solid var(--line);border-radius:3px;padding:9px 15px;
+  transition:color .25s,border-color .25s,gap .25s;
+}
+.go-back:hover{color:var(--accent);border-color:var(--accent);gap:14px}
+.go-back .arr{font-size:15px;line-height:1}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1fr 2fr;gap:clamp(20px,4vw,40px);
+  align-items:start;margin:clamp(34px,7vw,72px) 0 0}
+.p-photo{aspect-ratio:4 / 5;border-radius:10px;overflow:hidden;border:1px solid var(--line);
+  display:flex;align-items:flex-end;padding:16px;
+  font-family:var(--doto);font-weight:800;font-size:clamp(24px,3.4vw,42px);letter-spacing:.04em;
+  color:#F4ECE2;filter:saturate(.92) brightness(.92)}
+.p-photo img{width:100%;height:100%;object-fit:cover}
+.p-right{min-width:0}
+.p-name{
+  font-family:var(--doto);font-weight:800;
+  font-size:clamp(28px,5.5vw,58px);line-height:.96;letter-spacing:.04em;
+  color:var(--fg);margin-bottom:18px;word-break:break-word;
+}
+.p-meta{font-family:var(--sans);font-size:18px;letter-spacing:.01em;color:var(--dim);line-height:1.75}
+.p-meta .k{color:var(--accent);margin-right:9px}
+.p-meta b{color:var(--fg);font-weight:600}
+
+/* ---------- sections ---------- */
+section{padding:clamp(40px,6vw,64px) 0;border-top:1px solid var(--line)}
+h2.sec{
+  font-family:var(--doto);font-weight:500;
+  font-size:clamp(24px,4.4vw,40px);letter-spacing:.08em;line-height:1;
+  color:var(--fg);margin-bottom:26px;
+}
+h2.sec .hash{color:var(--accent);margin-right:12px}
+
+.lede-p{font-size:clamp(15px,1.8vw,18px);line-height:1.7;color:var(--fg);max-width:62ch}
+.lede-p + .lede-p{margin-top:16px}
+.dim{color:var(--dim)}
+.note{margin-top:20px;font-size:12px;color:var(--faint);letter-spacing:.02em}
+
+/* experience list */
+.xp{list-style:none}
+.xp li{padding:18px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+  gap:8px 20px;flex-wrap:wrap;align-items:baseline}
+.xp li:first-child{border-top:0;padding-top:0}
+.xp .role{font-family:var(--sans);font-size:clamp(15px,1.9vw,18px);letter-spacing:0;color:var(--fg)}
+.xp .role .num{font-family:var(--mono);color:var(--accent);margin-right:12px}
+.xp .org{color:var(--dim)}
+.xp .when{font-family:var(--sans);color:var(--dim);font-size:13px;white-space:nowrap}
+
+/* interests / tags */
+.tags{display:flex;flex-wrap:wrap;gap:10px 12px}
+.tag{border:1px solid var(--line);border-radius:3px;padding:7px 13px;font-size:13px;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--dim);
+  transition:color .25s,border-color .25s}
+.tag:hover{color:var(--accent);border-color:var(--accent)}
+
+/* keywords (under introduction) */
+.kw{margin-top:28px}
+.kw-label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:13px}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 28px}
+.links a{display:flex;gap:14px;align-items:baseline;font-size:14px;color:var(--fg);
+  border-bottom:1px solid var(--line);padding-bottom:11px;
+  transition:color .25s,border-color .25s}
+.links a:hover{color:var(--accent);border-color:var(--accent)}
+.links .lbl{color:var(--dim);min-width:70px;letter-spacing:.1em;text-transform:uppercase;font-size:12px}
+
+/* footer */
+footer.p-foot{padding:28px 0 6px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--faint);letter-spacing:.05em}
+
+@media (max-width:680px){
+  .hero{grid-template-columns:1fr;gap:20px;align-items:start}
+  .p-photo{aspect-ratio:1 / 1;max-width:220px}
+  .xp li{flex-direction:column;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .go-back,.tag,.links a{transition:none}
+}
