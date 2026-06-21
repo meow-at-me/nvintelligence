@@ -10,6 +10,10 @@
   --canvas:#0F0F0F;
   --card:#1A1A1A;
   --card-edge:#262626;
+  /* dark glassmorphism — semi-transparent over the wave canvas */
+  --glass-bg:rgba(20,20,20,.52);
+  --glass-edge:rgba(255,255,255,.10);
+  --glass-blur:blur(14px) saturate(130%);
   --chip-bg:#2A2A2A;
   --text-hi:#F2F2F0;
   --text-mid:#9C9C98;
@@ -107,7 +111,8 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
 
 /* ---------- rows / text cards ---------- */
 .rows{display:flex;flex-direction:column;gap:24px}
-.card-txt{background:var(--card);border:1px solid var(--card-edge);border-radius:10px;padding:22px}
+.card-txt{background:var(--glass-bg);border:1px solid var(--glass-edge);border-radius:10px;padding:22px;
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur)}
 .card-txt .chip{margin-bottom:14px}
 .card-txt p{font-size:14px;line-height:1.6}
 .dlink{
@@ -123,7 +128,8 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
 .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media (max-width:900px){.tri{grid-template-columns:1fr}}
 .pcard{
-  background:var(--card);border:1px solid var(--card-edge);border-radius:12px;
+  background:var(--glass-bg);border:1px solid var(--glass-edge);border-radius:12px;
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
   padding:24px 22px;display:flex;flex-direction:column;min-height:clamp(220px,28vh,280px);
 }
 .pcard .big{font-family:var(--font-display);font-size:clamp(30px,3vw,40px);line-height:1;
@@ -149,13 +155,15 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
 .mcard p{margin:0;font-size:13.5px;line-height:1.55;color:var(--text-hi)}
 @supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
   .mcard{background:rgba(26,26,26,.92)}
+  .card-txt,.pcard,.person{background:rgba(26,26,26,.9)}
 }
 
 /* ---------- people grid ---------- */
 .people{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 @media (max-width:900px){.people{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:480px){.people{grid-template-columns:1fr}}
-.person{background:var(--card);border:1px solid var(--card-edge);border-radius:10px;
+.person{background:var(--glass-bg);border:1px solid var(--glass-edge);border-radius:10px;
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
   padding:16px;display:flex;flex-direction:column}
 .avatar{
   width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;
@@ -172,6 +180,51 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
   transition:color .3s var(--ease),border-color .3s var(--ease)}
 .iconbtn:hover{color:var(--text-hi);border-color:#3A3A3A}
 .iconbtn svg{width:16px;height:16px}
+
+/* ---------- products: tall figure + glass caption, arranged in a row ---------- */
+.prod-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;align-items:stretch}
+.prod{display:flex;flex-direction:column;gap:14px}
+.prod-fig{
+  position:relative;aspect-ratio:3 / 4.2;border-radius:12px;overflow:hidden;
+  border:1px solid var(--card-edge);display:flex;align-items:flex-end;padding:16px;
+  filter:saturate(.92) brightness(.9);            /* imagery treatment: dark, warm, soft */
+}
+.prod-fig .pf-ic{width:26px;height:26px;color:#F4ECE2;opacity:.92;stroke-width:1.4}
+.prod .card-txt{flex:1}
+@media (max-width:760px){
+  .prod-row{grid-template-columns:1fr}
+  .prod-fig{aspect-ratio:16 / 10}
+}
+
+/* ---------- card hover: chrome sheen outline ---------- */
+@property --chrome-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
+.card-txt,.pcard,.person{
+  position:relative;--chrome-angle:0deg;
+  transition:border-color .4s var(--ease),box-shadow .4s var(--ease);
+}
+.card-txt::before,.pcard::before,.person::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:conic-gradient(from var(--chrome-angle),
+    rgba(255,255,255,.05),rgba(255,255,255,.95),rgba(205,227,239,.55),
+    rgba(255,255,255,.08),rgba(255,255,255,.95),rgba(170,170,170,.5),rgba(255,255,255,.05));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  opacity:0;transition:opacity .4s var(--ease);
+}
+.card-txt:hover,.pcard:hover,.person:hover{
+  border-color:rgba(255,255,255,.2);
+  box-shadow:0 14px 44px -16px rgba(0,0,0,.7);
+}
+.card-txt:hover::before,.pcard:hover::before,.person:hover::before{
+  opacity:1;animation:chrome-spin 3.2s linear infinite;
+}
+@keyframes chrome-spin{to{--chrome-angle:360deg}}
+
+/* ---------- publication entries ---------- */
+.card-txt .pub-title{font-size:16px;line-height:1.35;margin-bottom:8px}
+.card-txt .pub-authors{font-size:13px;line-height:1.5;color:var(--text-low);margin-bottom:12px}
 
 /* ---------- license rows ---------- */
 .lic-list{border-top:1px solid var(--card-edge)}
@@ -243,4 +296,5 @@ footer{border-top:1px solid var(--card-edge);margin-top:6vh}
   .sec .rv,.sec .rv-soft{opacity:1 !important;transform:none !important;transition:none !important}
   .pill,.dlink,.topnav a,.foot-col a,.iconbtn{transition:none !important}
   .pill:hover{transform:none}
+  .card-txt:hover::before,.pcard:hover::before,.person:hover::before{animation:none !important}
 }
