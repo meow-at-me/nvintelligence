@@ -1,0 +1,7 @@
+# OS / editor / cloud cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+.claude/
+.vscode/
