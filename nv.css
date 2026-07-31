@@ -214,6 +214,12 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
 .policy-callout p{max-width:56ch}
 .policy-shell{max-width:1040px;margin:0 auto;padding:150px 56px 12vh}
 .policy-head{padding-bottom:48px;border-bottom:1px solid var(--card-edge)}
+.policy-headline{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.language-switch{display:inline-flex;align-items:center;padding:3px;border:1px solid var(--card-edge);border-radius:7px;background:rgba(20,20,20,.65)}
+.language-switch a,.language-switch span{display:block;padding:6px 10px;border-radius:4px;font-size:11px;line-height:1;font-weight:500;color:var(--text-low);text-decoration:none}
+.language-switch a{transition:color .25s var(--ease),background .25s var(--ease)}
+.language-switch a:hover{color:var(--text-hi);background:rgba(255,255,255,.05)}
+.language-switch .active{color:#0F0F0F;background:var(--text-hi)}
 .policy-head .display{max-width:12ch}
 .policy-meta{font-size:13px;color:var(--text-low);margin-top:12px}
 .policy-intro{font-size:17px;line-height:1.8;color:var(--text-mid);max-width:76ch;margin-top:28px}
@@ -253,6 +259,7 @@ svg.ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-wid
   .policy-shell{padding:120px 24px 10vh}
 }
 @media (max-width:520px){.policy-toc{grid-template-columns:1fr}.policy-table{min-width:600px}}
+@media (max-width:460px){.policy-headline{align-items:flex-start;flex-direction:column}}
 
 /* ---------- card hover: chrome sheen outline ---------- */
 @property --chrome-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
